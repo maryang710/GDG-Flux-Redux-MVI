@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GDG-Flux-Redux-MVI</string>
+    <string name="flux">Flux</string>
+    <string name="redux">Redux</string>
+    <string name="mvi">MVI</string>
+    <string name="add_todo">Add TODO</string>
+    <string name="add">Add</string>
+    <string name="clear">Clear Tasks</string>
+</resources>
