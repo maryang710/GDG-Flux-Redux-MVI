@@ -18,6 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".flux.task.TasksFluxActivity" />
+        <activity android:name=".flux.todo.TodoFluxActivity" />
+        <activity android:name=".redux.TodoReduxActivity" />
+        <activity android:name=".mvi.TodoMviActivity" />
     </application>
 </manifest>

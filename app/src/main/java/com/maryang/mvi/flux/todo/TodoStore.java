@@ -1,4 +1,4 @@
-package com.maryang.mvi.flux.task;
+package com.maryang.mvi.flux.todo;
 
 import com.maryang.mvi.flux.Action;
 import com.maryang.mvi.flux.Store;
@@ -8,33 +8,33 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskStore extends Store {
+public class TodoStore extends Store {
 
-    private static TaskStore instance;
-    private List<Task> tasks = new ArrayList<>();
+    private static TodoStore instance;
+    private List<Todo> todos = new ArrayList<>();
 
-    private TaskStore() {
+    private TodoStore() {
     }
 
-    public synchronized static TaskStore get() {
-        if (instance == null) instance = new TaskStore();
+    public synchronized static TodoStore get() {
+        if (instance == null) instance = new TodoStore();
         return instance;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+    public List<Todo> getTodos() {
+        return todos;
     }
 
     @Subscribe
     public void onEvent(Action action) {
         switch (action.getType()) {
-            case TaskActions.TYPE_CREATE:
-                String text = (String) action.getData().get(TaskActions.KEY_TEXT);
-                tasks.add(new Task(text));
+            case TodoActions.TYPE_CREATE:
+                String text = (String) action.getData().get(TodoActions.KEY_TEXT);
+                todos.add(new Todo(text));
                 emitChange();
                 break;
-            case TaskActions.TYPE_CLEAR:
-                tasks.clear();
+            case TodoActions.TYPE_CLEAR:
+                todos.clear();
                 emitChange();
                 break;
         }

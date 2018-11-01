@@ -5,5 +5,5 @@
     <string name="mvi">MVI</string>
     <string name="add_todo">Add TODO</string>
     <string name="add">Add</string>
-    <string name="clear">Clear Tasks</string>
+    <string name="clear">Clear Todos</string>
 </resources>

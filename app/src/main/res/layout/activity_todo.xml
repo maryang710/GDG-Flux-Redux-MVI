@@ -18,7 +18,7 @@
             android:layout_toStartOf="@+id/btn_add">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_task"
+                android:id="@+id/input_todo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/add_todo"

@@ -1,6 +1,6 @@
-package com.maryang.mvi.flux.task;
+package com.maryang.mvi.flux.todo;
 
-public class TaskActions {
+public class TodoActions {
 
     public static final String TYPE_CREATE = "CREATE";
     public static final String TYPE_CLEAR = "CLEAR";

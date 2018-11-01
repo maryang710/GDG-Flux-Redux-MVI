@@ -1,4 +1,4 @@
-package com.maryang.mvi.flux.task;
+package com.maryang.mvi.mvi;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -6,6 +6,9 @@ import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
 import com.maryang.mvi.R;
 import com.maryang.mvi.flux.Dispatcher;
+import com.maryang.mvi.flux.todo.TodoActionCreator;
+import com.maryang.mvi.flux.todo.TodoAdapter;
+import com.maryang.mvi.flux.todo.TodoStore;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -15,21 +18,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TasksFluxActivity extends AppCompatActivity {
+public class TodoMviActivity extends AppCompatActivity {
 
-    private TextInputEditText inputTask;
+    private TextInputEditText inputTodo;
     private Button btnAdd;
     private RecyclerView recyclerView;
     private Button btnClear;
-    private TaskAdapter adapter;
+    private TodoAdapter adapter;
 
-    private TaskActionCreator actionCreator = TaskActionCreator.get();
-    private TaskStore store = TaskStore.get();
+    private TodoActionCreator actionCreator = TodoActionCreator.get();
+    private TodoStore store = TodoStore.get();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tasks);
+        setContentView(R.layout.activity_todo);
         Dispatcher.register(this);
         Dispatcher.register(store);
         findView();
@@ -38,7 +41,7 @@ public class TasksFluxActivity extends AppCompatActivity {
     }
 
     private void findView() {
-        inputTask = findViewById(R.id.input_task);
+        inputTodo = findViewById(R.id.input_todo);
         btnAdd = findViewById(R.id.btn_add);
         recyclerView = findViewById(R.id.list);
         btnClear = findViewById(R.id.btn_clear);
@@ -46,14 +49,14 @@ public class TasksFluxActivity extends AppCompatActivity {
 
     private void setButton() {
         btnAdd.setOnClickListener(v -> {
-            actionCreator.create(inputTask.getText().toString());
-            inputTask.setText("");
+            actionCreator.create(inputTodo.getText().toString());
+            inputTodo.setText("");
         });
         btnClear.setOnClickListener(v -> actionCreator.clear());
     }
 
     private void setRecyclerView() {
-        adapter = new TaskAdapter();
+        adapter = new TodoAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
@@ -66,11 +69,11 @@ public class TasksFluxActivity extends AppCompatActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(TaskStore.TodoChangeEvent event) {
+    public void onEvent(TodoStore.TodoChangeEvent event) {
         updateUI();
     }
 
     private void updateUI() {
-        adapter.setItems(store.getTasks());
+        adapter.setItems(store.getTodos());
     }
 }

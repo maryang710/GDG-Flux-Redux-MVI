@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.maryang.mvi.flux.task.TasksFluxActivity;
+import com.maryang.mvi.flux.todo.TodoFluxActivity;
+import com.maryang.mvi.redux.TodoReduxActivity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setButton() {
         btnFlux.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, TasksFluxActivity.class)));
+                startActivity(new Intent(MainActivity.this, TodoFluxActivity.class)));
+        btnRedux.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, TodoReduxActivity.class)));
     }
 }
