@@ -5,20 +5,20 @@ import android.widget.Button;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.maryang.mvi.R;
-import com.maryang.mvi.flux.Dispatcher;
-import com.maryang.mvi.flux.todo.TodoActionCreator;
+import com.maryang.mvi.flux.todo.TodoActions;
 import com.maryang.mvi.flux.todo.TodoAdapter;
-import com.maryang.mvi.flux.todo.TodoStore;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.maryang.mvi.mvi.presenter.MviPresenter;
+import com.maryang.mvi.mvi.reducer.TodoReducer;
+import com.maryang.mvi.redux.state.TodoState;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
-public class TodoMviActivity extends AppCompatActivity {
+public class TodoMviActivity extends AppCompatActivity implements MviView<TodoState> {
 
     private TextInputEditText inputTodo;
     private Button btnAdd;
@@ -26,18 +26,18 @@ public class TodoMviActivity extends AppCompatActivity {
     private Button btnClear;
     private TodoAdapter adapter;
 
-    private TodoActionCreator actionCreator = TodoActionCreator.get();
-    private TodoStore store = TodoStore.get();
+    private MviPresenter<TodoState> presenter = new MviPresenter<>(new TodoState(), new TodoReducer());
+    private PublishSubject<MviIntent> addIntent = PublishSubject.create();
+    private PublishSubject<MviIntent> clearIntent = PublishSubject.create();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
-        Dispatcher.register(this);
-        Dispatcher.register(store);
         findView();
         setButton();
         setRecyclerView();
+        initializeIntent();
     }
 
     private void findView() {
@@ -49,10 +49,11 @@ public class TodoMviActivity extends AppCompatActivity {
 
     private void setButton() {
         btnAdd.setOnClickListener(v -> {
-            actionCreator.create(inputTodo.getText().toString());
+            addIntent.onNext(MviIntent.with(TodoActions.TYPE_CREATE)
+                    .data(TodoActions.KEY_TEXT, inputTodo.getText().toString()));
             inputTodo.setText("");
         });
-        btnClear.setOnClickListener(v -> actionCreator.clear());
+        btnClear.setOnClickListener(v -> clearIntent.onNext(MviIntent.with(TodoActions.TYPE_CLEAR)));
     }
 
     private void setRecyclerView() {
@@ -61,19 +62,18 @@ public class TodoMviActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    private void initializeIntent() {
+        presenter.processIntents(intents());
+        presenter.states().subscribe(this::render);
+    }
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Dispatcher.unregister(this);
-        Dispatcher.register(store);
+    public Observable<MviIntent> intents() {
+        return Observable.merge(addIntent, clearIntent);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(TodoStore.TodoChangeEvent event) {
-        updateUI();
-    }
-
-    private void updateUI() {
-        adapter.setItems(store.getTodos());
+    @Override
+    public void render(TodoState state) {
+        adapter.setItems(state.getTodos());
     }
 }

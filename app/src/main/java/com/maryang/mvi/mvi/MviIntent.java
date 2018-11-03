@@ -1,13 +1,13 @@
-package com.maryang.mvi.flux;
+package com.maryang.mvi.mvi;
 
 import java.util.HashMap;
 
-public class Action {
+public class MviIntent {
 
     private String type;
     private HashMap<String, Object> data;
 
-    protected Action() {
+    protected MviIntent() {
     }
 
     public String getType() {
@@ -18,15 +18,15 @@ public class Action {
         return data;
     }
 
-    public static Action with(String type) {
-        if (type == null) throw new IllegalArgumentException("action may not be null.");
-        Action action = new Action();
-        action.type = type;
-        action.data = new HashMap<>();
-        return action;
+    public static MviIntent with(String type) {
+        if (type == null) throw new IllegalArgumentException("intent may not be null.");
+        MviIntent intent = new MviIntent();
+        intent.type = type;
+        intent.data = new HashMap<>();
+        return intent;
     }
 
-    public Action data(String key, Object value) {
+    public MviIntent data(String key, Object value) {
         if (key == null) throw new IllegalArgumentException("Key may not be null.");
         if (value == null) throw new IllegalArgumentException("Value may not be null.");
         data.put(key, value);
