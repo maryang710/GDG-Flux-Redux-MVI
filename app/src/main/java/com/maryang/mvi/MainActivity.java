@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import com.maryang.mvi.flux.todo.TodoFluxActivity;
 import com.maryang.mvi.mvi.TodoMviActivity;
+import com.maryang.mvi.mvp.TodoMvpActivity;
 import com.maryang.mvi.redux.TodoReduxActivity;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnFlux;
     private Button btnRedux;
     private Button btnMvi;
+    private Button btnMvp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         btnFlux = findViewById(R.id.btn_flux);
         btnRedux = findViewById(R.id.btn_redux);
         btnMvi = findViewById(R.id.btn_mvi);
+        btnMvp = findViewById(R.id.btn_mvp);
     }
 
     private void setButton() {
@@ -38,5 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, TodoReduxActivity.class)));
         btnMvi.setOnClickListener(v ->
                 startActivity(new Intent(MainActivity.this, TodoMviActivity.class)));
+        btnMvp.setOnClickListener(v ->
+                startActivity(new Intent(MainActivity.this, TodoMvpActivity.class)));
     }
 }

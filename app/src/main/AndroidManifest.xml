@@ -21,5 +21,6 @@
         <activity android:name=".flux.todo.TodoFluxActivity" />
         <activity android:name=".redux.TodoReduxActivity" />
         <activity android:name=".mvi.TodoMviActivity" />
+        <activity android:name=".mvp.TodoMvpActivity" />
     </application>
 </manifest>

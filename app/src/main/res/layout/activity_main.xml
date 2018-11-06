@@ -25,4 +25,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/half_large"
         android:text="@string/mvi" />
+
+    <Button
+        android:id="@+id/btn_mvp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/half_large"
+        android:text="@string/mvp" />
 </LinearLayout>

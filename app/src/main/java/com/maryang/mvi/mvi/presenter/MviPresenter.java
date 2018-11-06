@@ -6,14 +6,12 @@ import com.maryang.mvi.redux.state.State;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.PublishSubject;
 
 public class MviPresenter<S extends State> {
 
     private S initialState;
     private MviReducer<S> reducer;
 
-    private PublishSubject<MviIntent> intentSubject = PublishSubject.create();
     private BehaviorSubject<S> stateSubject = BehaviorSubject.create();
 
     public MviPresenter(S initialState, MviReducer<S> reducer) {
